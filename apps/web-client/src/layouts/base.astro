@@ -1,0 +1,21 @@
+---
+import { COLOR_SCHEME_HEADER, type Theme } from '~/constants'
+import './base.css'
+
+const chosenTheme = Astro.cookies.get('theme')?.value as Theme | undefined
+const prefersColorScheme = Astro.request.headers.get(COLOR_SCHEME_HEADER) as Theme
+const { title } = Astro.props
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title ? `${title} - Astro` : 'Astro'}</title>
+  </head>
+  <body class={chosenTheme || prefersColorScheme}>
+    <slot />
+  </body>
+</html>
