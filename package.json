@@ -1,6 +1,10 @@
 {
   "name": "creeptorio",
   "type": "module",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build"
+  },
   "workspaces": [
     "apps/*",
     "pkgs/*"

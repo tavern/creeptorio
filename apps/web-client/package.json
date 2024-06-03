@@ -1,8 +1,17 @@
 {
   "name": "@apps/web-client",
-  "module": "index.ts",
   "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
   "dependencies": {
-    "@pkgs/db": "workspace:*"
+    "astro": "^4.9.2",
+    "@astrojs/check": "^0.7.0",
+    "typescript": "^5.4.5"
   }
 }
