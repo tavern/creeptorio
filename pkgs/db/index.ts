@@ -1,1 +1,1 @@
-console.log("Hello via Bun!");
+export * from './models/cell'
