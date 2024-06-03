@@ -1,6 +1,7 @@
+import { Select } from '@kobalte/core/select'
 import { actions } from 'astro:actions'
 import Cookies from 'js-cookie'
-import { createSignal, onCleanup, onMount } from 'solid-js'
+import { createSignal, onCleanup, onMount, type JSX } from 'solid-js'
 import type { Theme, ThemeChoice } from '~/constants'
 
 const prefersDark: MediaQueryList | null = globalThis.matchMedia?.('(prefers-color-scheme: dark)')
@@ -23,11 +24,18 @@ const changeHandler = () => {
   selectTheme(Cookies.get('theme') as Theme)
 }
 
+const darkModeOptions = [
+  { label: 'System', value: 'system', icon: (props: JSX.HTMLAttributes<HTMLElement>) => <span {...props}>💻</span> },
+  { label: 'Light', value: 'light', icon: (props: JSX.HTMLAttributes<HTMLElement>) => <span {...props}>☀️</span> },
+  { label: 'Dark', value: 'dark', icon: (props: JSX.HTMLAttributes<HTMLElement>) => <span {...props}>🌙</span> },
+] as const
+
+type DarkModeOption = (typeof darkModeOptions)[number]
+
 type DarkModeToggleProps = {
   initialTheme?: ThemeChoice
 }
 export const DarkModeToggle = ({ initialTheme = 'system' }: DarkModeToggleProps = {}) => {
-  console.log('initialTheme', initialTheme)
   onMount(() => {
     setSelectedTheme(initialTheme)
     prefersDark?.addEventListener('change', changeHandler)
@@ -37,21 +45,43 @@ export const DarkModeToggle = ({ initialTheme = 'system' }: DarkModeToggleProps 
   })
 
   return (
-    <select
-      onChange={(e) => {
-        actions.toggleDarkMode(e.target.value as ThemeChoice)
-        selectTheme(e.target.value as ThemeChoice)
+    <Select
+      defaultValue={darkModeOptions.find((option) => option.value === initialTheme) as DarkModeOption}
+      options={[...darkModeOptions]}
+      optionValue="value"
+      optionTextValue="label"
+      onChange={(value) => {
+        actions.toggleDarkMode(value.value)
+        selectTheme(value.value)
+      }}
+      itemComponent={(props) => {
+        const Icon = props.item.rawValue.icon
+        return (
+          <Select.Item item={props.item}>
+            <Icon class="mr-2" />
+            {props.item.rawValue.label}
+          </Select.Item>
+        )
       }}
     >
-      <option value="system" selected={selectedTheme() === 'system'}>
-        System
-      </option>
-      <option value="light" selected={selectedTheme() === 'light'}>
-        Light
-      </option>
-      <option value="dark" selected={selectedTheme() === 'dark'}>
-        Dark
-      </option>
-    </select>
+      <Select.Trigger aria-label="Dark mode">
+        <Select.Value<DarkModeOption>>
+          {(state) => {
+            const Icon = state.selectedOption().icon
+            return (
+              <>
+                <Icon class="mr-2" />
+                {state.selectedOption().label}
+              </>
+            )
+          }}
+        </Select.Value>
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Content>
+          <Select.Listbox />
+        </Select.Content>
+      </Select.Portal>
+    </Select>
   )
 }

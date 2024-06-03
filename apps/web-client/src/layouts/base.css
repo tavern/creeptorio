@@ -52,12 +52,13 @@
 }
 
 @layer base {
-  /* * {
+  * {
     @apply border-border;
-  } */
+  }
 
   body {
     @apply bg-background text-foreground;
+    @apply min-h-dvh;
   }
 
   .bg-gradient:not(.dark):not(.dark *) {
