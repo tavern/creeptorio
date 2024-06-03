@@ -7,4 +7,7 @@ import tailwind from '@astrojs/tailwind'
 export default defineConfig({
   output: 'server',
   integrations: [solidJs({ devtools: true }), tailwind({ applyBaseStyles: false })],
+  experimental: {
+    actions: true,
+  },
 })

@@ -1,4 +1,5 @@
 ---
+import { DarkModeToggle } from '~/components/DarkModeToggle'
 import { COLOR_SCHEME_HEADER, type Theme } from '~/constants'
 import './base.css'
 
@@ -16,6 +17,7 @@ const { title } = Astro.props
     <title>{title ? `${title} - Astro` : 'Astro'}</title>
   </head>
   <body class={chosenTheme || prefersColorScheme}>
+    <DarkModeToggle initialTheme={chosenTheme} />
     <slot />
   </body>
 </html>
