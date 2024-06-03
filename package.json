@@ -1,0 +1,14 @@
+{
+  "name": "creeptorio",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "pkgs/*"
+  ],
+  "devDependencies": {
+    "@turbo/gen": "^1.13.3",
+    "@types/bun": "^1.1.3",
+    "turbo": "^1.13.3",
+    "typescript": "^5.4.5"
+  }
+}

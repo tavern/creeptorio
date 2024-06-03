@@ -1,0 +1,8 @@
+{
+  "name": "@apps/web-client",
+  "module": "index.ts",
+  "type": "module",
+  "dependencies": {
+    "@pkgs/db": "workspace:*"
+  }
+}
