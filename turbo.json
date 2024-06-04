@@ -27,6 +27,16 @@
       "cache": false,
       "interactive": true,
       "persistent": true
+    },
+    "db": {
+      "cache": false,
+      "interactive": true,
+      "persistent": true
+    },
+    "db:seed": {
+      "cache": false,
+      "interactive": true,
+      "persistent": true
     }
   }
 }
