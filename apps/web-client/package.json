@@ -3,16 +3,17 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "check": "astro check",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "dotenvx run -- astro dev",
+    "build": "dotenvx run -- astro build",
+    "check": "dotenvx run -- astro check",
+    "preview": "dotenvx run -- astro preview",
+    "astro": "dotenvx run -- astro"
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",
     "@astrojs/solid-js": "^4.2.0",
     "@astrojs/tailwind": "^5.1.0",
+    "@dotenvx/dotenvx": "^0.44.1",
     "@kobalte/core": "^0.13.2",
     "@tailwindcss/typography": "^0.5.13",
     "astro": "^4.9.2",

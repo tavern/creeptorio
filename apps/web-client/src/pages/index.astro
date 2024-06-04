@@ -1,7 +1,21 @@
 ---
+import client from '@pkgs/server/client'
 import BaseLayout from '../layouts/base.astro'
+
+const res = await client.map.$get()
+const map = await res.json()
 ---
 
-<BaseLayout title="Home">
-  <h1>Astro</h1>
+<BaseLayout>
+  <table>
+    <tbody>
+      {map.map(r => (
+        <tr>
+          {r.map(c => (
+            <td class="text-center">{c.x},{c.y}</td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
 </BaseLayout>
