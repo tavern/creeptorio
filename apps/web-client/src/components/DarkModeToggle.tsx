@@ -46,7 +46,7 @@ export const DarkModeToggle = ({ initialTheme = 'system' }: DarkModeToggleProps 
 
   return (
     <Select
-      defaultValue={darkModeOptions.find((option) => option.value === initialTheme) as DarkModeOption}
+      defaultValue={darkModeOptions.find((option) => option.value === selectedTheme()) as DarkModeOption}
       options={[...darkModeOptions]}
       optionValue="value"
       optionTextValue="label"

@@ -1,21 +1,17 @@
 ---
-import client from '@pkgs/server/client'
+import db, { type Cell } from '@pkgs/db'
+import { App } from '../components/Canvas'
 import BaseLayout from '../layouts/base.astro'
 
-const res = await client.map.$get()
-const map = await res.json()
+const cells = await db.query.cells.findMany()
+const map = cells.reduce((acc, cell) => {
+  if (!acc[cell.x]) acc[cell.x] = []
+  acc[cell.x][cell.y] = cell
+  acc[cell.x] = acc[cell.x].sort((a, b) => a.y - b.y)
+  return acc
+}, [] as Cell[][])
 ---
 
 <BaseLayout>
-  <table>
-    <tbody>
-      {map.map(r => (
-        <tr>
-          {r.map(c => (
-            <td class="text-center">{c.x},{c.y}</td>
-          ))}
-        </tr>
-      ))}
-    </tbody>
-  </table>
+  <App client:only="solid-js" map={map} />
 </BaseLayout>
