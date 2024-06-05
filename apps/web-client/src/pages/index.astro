@@ -1,15 +1,9 @@
 ---
-import db, { type Cell } from '@pkgs/db'
+import db from '@pkgs/db'
 import { App } from '../components/Canvas'
 import BaseLayout from '../layouts/base.astro'
 
-const cells = await db.query.cells.findMany()
-const map = cells.reduce((acc, cell) => {
-  if (!acc[cell.x]) acc[cell.x] = []
-  acc[cell.x][cell.y] = cell
-  acc[cell.x] = acc[cell.x].sort((a, b) => a.y - b.y)
-  return acc
-}, [] as Cell[][])
+const map = await db.query.cells.findMany()
 ---
 
 <BaseLayout>

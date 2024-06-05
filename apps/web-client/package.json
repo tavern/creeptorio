@@ -16,6 +16,8 @@
     "@dotenvx/dotenvx": "^0.44.1",
     "@kobalte/core": "^0.13.2",
     "@pixi/app": "^7.4.2",
+    "@pixi/core": "^7.4.2",
+    "@pixi/display": "^7.4.2",
     "@pixi/graphics": "^7.4.2",
     "@tailwindcss/typography": "^0.5.13",
     "astro": "^4.9.2",
