@@ -5,14 +5,7 @@ export const app = new Hono().basePath('/api')
 
 const routes = app.get('/map', async (c) => {
   const cells = await db.query.cells.findMany()
-  return c.json(
-    cells.reduce((acc, cell) => {
-      if (!acc[cell.x]) acc[cell.x] = []
-      acc[cell.x][cell.y] = cell
-      acc[cell.x] = acc[cell.x].sort((a, b) => a.y - b.y)
-      return acc
-    }, [] as Cell[][]),
-  )
+  return c.json<Cell[], 200>(cells)
 })
 
 export type AppType = typeof routes
