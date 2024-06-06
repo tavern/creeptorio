@@ -29,7 +29,7 @@ export class Preload extends Scene {
           resolve(progress)
           clearInterval(interval)
         }
-      }, 50)
+      }, 25)
     })
     this.scene.start('Main')
   }
