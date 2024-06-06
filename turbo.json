@@ -1,41 +1,30 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "experimentalUI": true,
-  "pipeline": {
-    // "dev": "astro dev",
-    // "start": "astro dev",
-    // "build": "astro check && astro build",
-    // "preview": "astro preview",
-    // "astro": "astro"
+  "ui": "tui",
+  "tasks": {
     "dev": {
       "cache": false,
-      "interactive": true,
+      "interactive": false,
       "persistent": true
     },
     "check": {
-      "dependsOn": [
-        "^check"
-      ]
+      "dependsOn": ["^check"]
     },
     "build": {
-      "dependsOn": [
-        "^build",
-        "check"
-      ]
+      "dependsOn": ["^build", "check"]
     },
     "preview": {
       "cache": false,
-      "interactive": true,
+      "interactive": false,
       "persistent": true
     },
     "db": {
       "cache": false,
-      "interactive": true,
       "persistent": true
     },
     "db:seed": {
       "cache": false,
-      "interactive": true,
+      "interactive": false,
       "persistent": true
     }
   }
