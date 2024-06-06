@@ -1,11 +1,13 @@
 ---
 import db from '@pkgs/db'
-import { App } from '../components/Canvas'
-import BaseLayout from '../layouts/base.astro'
+import { App } from '~/components/Canvas'
+import { GameComponent } from '~/components/Game'
+import BaseLayout from '~/layouts/base.astro'
 
 const map = await db.query.cells.findMany()
 ---
 
 <BaseLayout>
+  <GameComponent client:only />
   <App client:only="solid-js" map={map} />
 </BaseLayout>
