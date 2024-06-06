@@ -15,7 +15,9 @@ export class Preload extends Scene {
     })
   }
 
-  async preload() {}
+  async preload() {
+    this.load.image('tiles', '/iso-64x64-outside.png')
+  }
 
   async create() {
     let progress = 0

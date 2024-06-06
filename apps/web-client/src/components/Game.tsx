@@ -13,6 +13,7 @@ const config: Phaser.Types.Core.GameConfig = {
   type: AUTO,
   width: 1024,
   height: 768,
+  pixelArt: true,
   parent: gameContainerId,
   backgroundColor: '#000000',
   scene: [Boot, Preload, Main],
