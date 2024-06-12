@@ -1,16 +1,12 @@
 import { Select } from '@kobalte/core/select'
 import { actions } from 'astro:actions'
 import Cookies from 'js-cookie'
-import { createSignal, onCleanup, onMount, type JSX } from 'solid-js'
+import { createSignal, onCleanup, type JSX } from 'solid-js'
 import type { Theme, ThemeChoice } from '~/constants'
 
 const prefersDark: MediaQueryList | null = globalThis.matchMedia?.('(prefers-color-scheme: dark)')
 
-const [selectedTheme, setSelectedTheme] = createSignal<ThemeChoice>('system')
-
 const selectTheme = async (theme?: ThemeChoice) => {
-  setSelectedTheme(theme ?? 'system')
-
   const isDark = theme === 'dark' || ((!theme || theme === 'system') && prefersDark.matches)
 
   if (isDark) {
@@ -24,35 +20,46 @@ const changeHandler = () => {
   selectTheme(Cookies.get('theme') as Theme)
 }
 
-const darkModeOptions = [
-  { label: 'System', value: 'system', icon: (props: JSX.HTMLAttributes<HTMLElement>) => <span {...props}>💻</span> },
-  { label: 'Light', value: 'light', icon: (props: JSX.HTMLAttributes<HTMLElement>) => <span {...props}>☀️</span> },
-  { label: 'Dark', value: 'dark', icon: (props: JSX.HTMLAttributes<HTMLElement>) => <span {...props}>🌙</span> },
-] as const
+const darkModeOptions = {
+  system: {
+    label: 'System',
+    value: 'system',
+    icon: (props: JSX.HTMLAttributes<HTMLElement>) => <span {...props}>💻</span>,
+  },
+  light: {
+    label: 'Light',
+    value: 'light',
+    icon: (props: JSX.HTMLAttributes<HTMLElement>) => <span {...props}>☀️</span>,
+  },
+  dark: { label: 'Dark', value: 'dark', icon: (props: JSX.HTMLAttributes<HTMLElement>) => <span {...props}>🌙</span> },
+} as const
 
-type DarkModeOption = (typeof darkModeOptions)[number]
+type DarkModeOption = (typeof darkModeOptions)[keyof typeof darkModeOptions]
+
+const [selectedTheme, setSelectedTheme] = createSignal<DarkModeOption>(darkModeOptions.system)
 
 type DarkModeToggleProps = {
   initialTheme?: ThemeChoice
 }
-export const DarkModeToggle = ({ initialTheme = 'system' }: DarkModeToggleProps = {}) => {
-  onMount(() => {
-    setSelectedTheme(initialTheme)
-    prefersDark?.addEventListener('change', changeHandler)
-  })
+export const DarkModeToggle = ({ initialTheme }: DarkModeToggleProps = {}) => {
+  const currentTheme = () => darkModeOptions[initialTheme ?? (Cookies.get('theme') as Theme) ?? 'system']
+  setSelectedTheme(currentTheme())
+  prefersDark?.addEventListener('change', changeHandler)
+
   onCleanup(() => {
     prefersDark?.removeEventListener('change', changeHandler)
   })
 
   return (
     <Select
-      defaultValue={darkModeOptions.find((option) => option.value === selectedTheme()) as DarkModeOption}
-      options={[...darkModeOptions]}
+      value={selectedTheme()}
+      options={Object.values(darkModeOptions)}
       optionValue="value"
       optionTextValue="label"
-      onChange={(value) => {
-        actions.toggleDarkMode(value.value)
-        selectTheme(value.value)
+      onChange={(change) => {
+        actions.selectTheme(change.value)
+        setSelectedTheme(change)
+        selectTheme(change.value)
       }}
       itemComponent={(props) => {
         const Icon = props.item.rawValue.icon
